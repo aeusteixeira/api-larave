@@ -9,34 +9,36 @@ Esta é uma API em Laravel simples que permite o gerenciamento de usuários e se
 Clone o projeto
 
 ```bash
-  git clone https://github.com/aeusteixeira/api-php.git
+  git clone https://github.com/aeusteixeira/api-laravel.git
 ```
 
 Entre no diretório do projeto
 
 ```bash
-  cd api-php
+  cd api-laravel
 ```
 
 Instale as dependências
 
 ```bash
-  composer-install
+  composer install
 ```
 
 Inicie o servidor
 
 ```bash
-  php -S localhost:8000
+  php artisan serve
 ```
 
-Importe o arquivo `api_db.sql` e ajuste as variáveis globais no `env.php`
+Rode as migrations e ajuste as variáveis globais no `env`
 
 ```php
-    define('DB_HOST', 'localhost');
-    define('DB_NAME', 'db_api');
-    define('DB_USER', 'root');
-    define('DB_PASSWORD', 'password');
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=laravel
+    DB_USERNAME=root
+    DB_PASSWORD=
 ```
 # Documentação da API
 
@@ -44,17 +46,17 @@ Importe o arquivo `api_db.sql` e ajuste as variáveis globais no `env.php`
 
 ### Listar todos os usuários
 ```http
-GET /users
+GET /api/users
 ```
 
 ### Obter detalhes de um usuário específico
 ```http
-GET /users/{id}
+GET /api/users/{id}
 ```
 
 ### Criar um novo usuário
 ```http
-POST /users/create
+POST /api/users/create
 ```
 Envie um JSON no corpo da requisição com os seguintes dados:
 
@@ -74,7 +76,7 @@ Envie um JSON no corpo da requisição com os seguintes dados:
 
 ### Atualizar um usuário existente
 ```http
-PUT /users/{id}/update
+PUT /api/users/{id}/update
 ```
 Envie um JSON no corpo da requisição com os seguintes dados:
 
@@ -94,24 +96,24 @@ Envie um JSON no corpo da requisição com os seguintes dados:
 
 ### Excluir um usuário
 ```http
-DELETE /users/{id}
+DELETE /api/users/{id}
 ```
 
 ## Endpoints de Endereços
 
 ### Listar todos os endereços
 ```http
-GET /addresses
+GET api/addresses
 ```
 
 ### Obter detalhes de um endereço específico
 ```http
-GET /addresses/{id}
+GET api/addresses/{id}
 ```
 
 ### Criar um novo endereço
 ```http
-POST /addresses/create
+POST api/addresses/create
 ```
 Envie um JSON no corpo da requisição com os seguintes dados:
 
@@ -133,7 +135,7 @@ Envie um JSON no corpo da requisição com os seguintes dados:
 
 ### Atualizar um endereço existente
 ```http
-PUT /addresses/{id}/update
+PUT api/addresses/{id}/update
 ```
 Envie um JSON no corpo da requisição com os seguintes dados:
 
@@ -155,57 +157,30 @@ Envie um JSON no corpo da requisição com os seguintes dados:
 
 ### Excluir um endereço
 ```http
-DELETE /addresses/{id}
+DELETE api/addresses/{id}
 ```
 
 ## Endpoints de Cidades e Estados
 
 ### Listar todas as cidades
 ```http
-GET /cities
+GET /api/cities
 ```
 
 ### Obter detalhes de uma cidade específica
 ```http
-GET /cities/{id}
+GET /api/cities/{id}
 ```
 
 ### Listar todos os estados
 ```http
-GET /states
+GET /api/states
 ```
 
 ### Obter detalhes de um estado específico
 ```http
-GET /states/{id}
+GET /api/states/{id}
 ```
 
 ## Formato dos Dados
 Os exemplos de solicitações e respostas em JSON para cada endpoint estão incluídos acima, bem como tabelas descrevendo os parâmetros e tipos de dados esperados. 
-
-## Erros e Mensagens
-- 200 OK: Requisição bem-sucedida.
-- 400 Bad Request: A requisição contém dados inválidos.
-- 404 Not Found: O recurso solicitado não foi encontrado.
-- 500 Internal Server Error: Erro interno no servidor.
-## Uso/Exemplos
-
-index.php:
-```php
-    $router->get('/users/{id}', 'UserController@show');
-```
-UserController.php:
-```php
-public function show($id) {
-    try {
-        $userData = $this->user->findOrFail($id);
-        $address = $userData->address();
-        return $this->response([
-            'user' => $userData,
-            'address' => $address
-        ]);
-    } catch (Exception $e) {
-        return $this->response(['message' => $e->getMessage()], 404);
-    }
-}
-```
