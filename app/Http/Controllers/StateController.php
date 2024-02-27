@@ -14,7 +14,7 @@ class StateController extends Controller
     public function index()
     {
         $states = State::all();
-        return StateResource::collection($states);
+        return StateResource::collection($states->load('cities'));
     }
 
     /**
@@ -38,9 +38,7 @@ class StateController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $state = State::findOrFail($id);
+    public function update(Request $request, State $state){
         $state->update($request->all());
         return StateResource::make($state);
     }
@@ -48,9 +46,7 @@ class StateController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        $state = State::findOrFail($id);
+    public function destroy(State $state){
         $state->delete();
         return response()->json(null, 204);
     }
