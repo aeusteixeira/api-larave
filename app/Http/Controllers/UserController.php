@@ -29,18 +29,17 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        $user = User::with('address')->find($id);
+        $user->load('address');
         return UserResource::make($user);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::find($id);
         $user->update($request->all());
         return UserResource::make($user);
     }
@@ -48,9 +47,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
         $user->delete();
         return response()->json(null, 204);
     }

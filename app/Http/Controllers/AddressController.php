@@ -29,18 +29,17 @@ class AddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Address $address)
     {
-        $address = Address::with('city')->findOrFail($id);
+        $address->load('city');
         return AddressResource::make($address);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Address $address)
     {
-        $address = Address::findOrFail($id);
         $address->update($request->all());
         return AddressResource::make($address);
     }
@@ -48,9 +47,8 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Address $address)
     {
-        $address = Address::findOrFail($id);
         $address->delete();
         return response()->json(null, 204);
     }

@@ -29,18 +29,17 @@ class CityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(City $city)
     {
-        $city = City::with('state')->findOrFail($id);
+        $city->load('state');
         return CityResource::make($city);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, City $city)
     {
-        $city = City::findOrFail($id);
         $city->update($request->all());
         return CityResource::make($city);
     }
@@ -48,9 +47,8 @@ class CityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(City $city)
     {
-        $city = City::findOrFail($id);
         $city->delete();
         return response()->json(null, 204);
     }

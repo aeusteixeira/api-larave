@@ -29,18 +29,16 @@ class StateController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(State $state)
     {
-        $state = State::findOrFail($id);
         return StateResource::make($state);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, State $state)
     {
-        $state = State::findOrFail($id);
         $state->update($request->all());
         return StateResource::make($state);
     }
@@ -48,9 +46,8 @@ class StateController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(State $state)
     {
-        $state = State::findOrFail($id);
         $state->delete();
         return response()->json(null, 204);
     }
